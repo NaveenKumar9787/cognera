@@ -1,0 +1,47 @@
+import { allPosts } from "/blog.ts";
+import { MetadataRoute } from "next";
+ 
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const blogs = allPosts;
+  const URL = "";
+ 
+  const restUrls = [
+    {
+      url: `${URL}/`, // Home Page
+      lastModified: new Date(),
+      priority: 1.0,
+      changeFrequency: "weekly",
+    },
+    {
+      url: `${URL}/blogs`, // Blogs Page
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "daily",
+    },
+    {
+      url: `${URL}/projects`, // Projects Page
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "weekly",
+    },
+    {
+      url: `${URL}/skills`, // Skills Page
+      lastModified: new Date(),
+      priority: 0.8,
+      changeFrequency: "weekly",
+    },
+  ];
+ 
+  const allBlogs = blogs.map(({ slugAsParams, date }) => {
+    return {
+      url: `${URL}/blog/${slugAsParams}`,
+      lastModified: new Date(date),
+      priority: 0.64,
+      changeFrequency: "daily",
+    };
+  });
+ 
+  return [...restUrls, ...allBlogs];
+}
+
+<!-- https://medium.com/@rajreetesh7/best-seo-practices-for-next-js-apps-6cad24c0fb0e -->
